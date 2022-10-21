@@ -1,0 +1,32 @@
+{
+    "name": "process-drive/laravel-cloud-translation",
+    "type": "library",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "ProcessDrive\\LaravelCloudTranslation\\": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "authors": [
+        {
+            "name": "Venkatesan C",
+            "email": "venkatesangee@gmail.com",
+            "role": "Senior Developer"
+        },
+        {
+            "name": "Santhosh",
+            "email": "santhosh@processdrive.com",
+            "role": "Software Developer"
+        },
+        {
+            "name": "Kaviyarasan Shanmugam",
+            "email": "kaviyarasanshanmugam1999@gmail.com",
+            "role": "Software Developer"
+        }
+    ],
+    "require": {
+        "yajra/laravel-datatables-oracle": "^9.21",
+        "spatie/laravel-translation-loader":"2.7.4"
+    }
+}
