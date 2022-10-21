@@ -41,6 +41,10 @@ If you not added in job table in your project. you run this below command or ref
 php artisan queue:table
 ```
 
+Mention .env:
+```
+QUEUE_CONNECTION=database
+```
 
 
 Run the migration
