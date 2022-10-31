@@ -69,7 +69,7 @@ class TransController extends Controller
            return Datatables::of($data)
                ->addIndexColumn()
                ->addColumn('text', function($row) use ($language){
-                    return is_array($row->text) ? $row->text[$language] : json_decode($row->text, true)[$language];
+                    return is_array($row->text) ? @$row->text[$language] : @json_decode($row->text, true)[$language];
                 })
                ->addColumn('action', function($row){
                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" data-attr="'.$row->id.'"><i class="fa fa-pencil" aria-hidden="true"></i></a> 
