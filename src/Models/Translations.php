@@ -13,7 +13,7 @@ class Translations extends Model
 
     public $guarded = ['id'];
 
-    public $table = 'translation';
+    public $table = 'language_lines';
 
     public $fillable = [
         'group',

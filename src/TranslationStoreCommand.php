@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 use ProcessDrive\LaravelCloudTranslation\Models\Translations;
 use DB;
-
+use Cache;
 
 class TranslationStoreCommand extends Command
 {
@@ -84,5 +84,6 @@ class TranslationStoreCommand extends Command
                 }, []);
             }
         }
+        Cache::flush();
     }
 }

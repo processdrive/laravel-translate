@@ -11,12 +11,13 @@ use ProcessDrive\LaravelCloudTranslation\Models\TranslateLanguageIsocode;
 use DB;
 use DataTables;
 use ProcessDrive\LaravelCloudTranslation\Jobs\ConvertNewLangByJobs;
-
+use Cache;
 
 class TransController extends Controller
 {
    public function index ()
    {
+        Cache::flush();
         $data = ['language' => TranslateLanguageIsocode::where('used', 1)->get()->pluck('name', 'iso_code')->toArray(), 'new_lang' => TranslateLanguageIsocode::where('used', 0)->get()->pluck('name', 'iso_code')->toArray()];
         return view('LaravelCloudTranslation::translation')->with($data);
    }
@@ -31,6 +32,7 @@ class TransController extends Controller
                 $text[$lang] = CloudTranslate::translate($request_data['text'], $request_data['lang'], $lang);
             }
         }
+        Cache::flush();
         return Translations::create([
             'group' => $request_data['group'],
             'key' => $request_data['key'],
@@ -48,6 +50,7 @@ class TransController extends Controller
         $data['text']  = json_encode($text);
         $data['group'] = $request_data['group'];
         $data['key']   = $request_data['key'];
+        Cache::flush();
         return Translations::whereId($request->get('edit_id'))->update($data);
    }
 
@@ -60,12 +63,13 @@ class TransController extends Controller
    public function getTranslation(Request $request)
    {
        if ($request->ajax()) {
+           Cache::flush();
            $data =  Translations::all();
            $language = $request->get('lang');
            return Datatables::of($data)
                ->addIndexColumn()
                ->addColumn('text', function($row) use ($language){
-                    return is_array($row->text) ? $row->text[$language] : json_decode($row->text, true);
+                    return is_array($row->text) ? $row->text[$language] : json_decode($row->text, true)[$language];
                 })
                ->addColumn('action', function($row){
                    $actionBtn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" data-attr="'.$row->id.'"><i class="fa fa-pencil" aria-hidden="true"></i></a> 
@@ -81,6 +85,7 @@ class TransController extends Controller
 
    public function storeNewLanguage(Request $request)
    {
+        Cache::flush();
         ConvertNewLangByJobs::dispatch($request->all())->delay(now()->addSeconds(1));
         return true;
    }

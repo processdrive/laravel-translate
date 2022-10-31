@@ -11,6 +11,7 @@ use Illuminate\Queue\SerializesModels;
 use ProcessDrive\LaravelCloudTranslation\CloudTranslate;
 use ProcessDrive\LaravelCloudTranslation\Models\Translations;
 use DB;
+use Cache;
 
 class ConvertNewLangByJobs implements ShouldQueue
 {
@@ -40,6 +41,7 @@ class ConvertNewLangByJobs implements ShouldQueue
             $value['text'][$request_data['to_lang']] = CloudTranslate::translate($value['text'][$request_data['from_lang']], $request_data['from_lang'], $request_data['to_lang']);
             Translations::whereId($value['id'])->update(['text' => $value['text']]);
         }
+        Cache::flush();
         DB::table('translate_language_isocode')->where('iso_code',$request_data['to_lang'])->where('used','=',0)->update(['used' => 1]);
     }
 }

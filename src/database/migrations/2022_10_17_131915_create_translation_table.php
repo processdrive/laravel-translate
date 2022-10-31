@@ -13,7 +13,7 @@ class CreateTranslationTable extends Migration
      */
     public function up()
     {
-        Schema::create('translation', function (Blueprint $table) {
+        Schema::create('language_lines', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('group')->index();
             $table->string('key');
@@ -31,6 +31,6 @@ class CreateTranslationTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('translation');
+        Schema::dropIfExists('language_lines');
     }
 }
